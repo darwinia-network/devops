@@ -66,8 +66,8 @@ runs:
         DIST_PATH=build
         mkdir -p ${DIST_PATH}
 
-        PACKAGE_BINARY_BZ2=${DIST_PATH}/${PACKAGE}${SUFFIX:+-$SUFFIX}.tar.bz2
-        PACKAGE_BINARY_ZST=${DIST_PATH}/${PACKAGE}${SUFFIX:+-$SUFFIX}.tar.zst
+        PACKAGE_BINARY_BZ2=${DIST_PATH}/${PACKAGE}${SUFFIX:+-$SUFFIX}-x86_64-linux-gnu.tar.bz2
+        PACKAGE_BINARY_ZST=${DIST_PATH}/${PACKAGE}${SUFFIX:+-$SUFFIX}-x86_64-linux-gnu.tar.zst
 
         tar cjSf ${PACKAGE_BINARY_BZ2} -C target/release ${PACKAGE}
         tar cf ${PACKAGE_BINARY_ZST} -C target/release ${PACKAGE} -I zstd
