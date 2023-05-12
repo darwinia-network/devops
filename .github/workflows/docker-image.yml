@@ -35,7 +35,7 @@ jobs:
           RUST_TOOLCHAIN: nightly-2022-11-15
         with:
           push: true
-          context: images/srtool
+          context: docker-image/srtool
           tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/srtool:${{ env.RUST_TOOLCHAIN }}
           build-args: |
             RUSTC_VERSION=${{ env.RUST_TOOLCHAIN }}
