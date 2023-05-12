@@ -1,0 +1,41 @@
+name: Build docker image
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  DOCKER_REGISTRY: ghcr.io
+
+jobs:
+  build-docker-image:
+    name: Build docker image
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: benjlevesque/short-sha@v1.2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Docker login
+        uses: docker/login-action@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ${{ env.DOCKER_REGISTRY }}
+
+      - name: srtool
+        uses: docker/build-push-action@v3
+        env:
+          RUST_TOOLCHAIN: nightly-2022-11-15
+        with:
+          push: true
+          context: images/srtool
+          tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/srtool:${{ env.RUST_TOOLCHAIN }}
+          build-args: |
+            RUSTC_VERSION=${{ env.RUST_TOOLCHAIN }}
