@@ -71,7 +71,6 @@ runs:
 
         tar cjSf ${PACKAGE_BINARY_BZ2} -C target/release ${PACKAGE}
         tar cf ${PACKAGE_BINARY_ZST} -C target/release ${PACKAGE} -I zstd
-        cp target/release/${PACKAGE} ${DIST_PATH}/
 
         echo ''
         echo "PACKAGE_BINARY_BZ2=$PACKAGE_BINARY_BZ2" >> $GITHUB_OUTPUT
