@@ -14,6 +14,11 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
+    strategy:
+      matrix:
+        package:
+          - srtool
+          - darwinia-tracing
     steps:
       - uses: actions/checkout@v2
 
@@ -31,6 +36,7 @@ jobs:
 
       - name: srtool
         uses: docker/build-push-action@v3
+        if: ${{ matrix.package == 'srtool' }}
         env:
           RUST_TOOLCHAIN: nightly-2022-11-15
         with:
@@ -39,3 +45,15 @@ jobs:
           tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/srtool:${{ env.RUST_TOOLCHAIN }}
           build-args: |
             RUSTC_VERSION=${{ env.RUST_TOOLCHAIN }}
+
+      - name: darwinia-tracing
+        uses: docker/build-push-action@v3
+        if: ${{ matrix.package == 'darwinia-tracing' }}
+        env:
+          DARWINIA_VERSION: pango-6300
+        with:
+          push: true
+          context: docker-image/darwinia-tracing
+          tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/darwinia-tracing:${{ env.DARWINIA_VERSION }}
+          build-args: |
+            DARWINIA_VERSION=${{ env.DARWINIA_VERSION }}
