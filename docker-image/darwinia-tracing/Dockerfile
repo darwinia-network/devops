@@ -19,6 +19,7 @@ RUN groupadd --gid $USER_GID $USERNAME \
   && rm -rf darwinia-tracing-x86_64-linux-gnu.tar.bz2 \
   && chown -R $USERNAME:$USERNAME /home/$USERNAME \
   && chown -R $USERNAME:$USERNAME /data \
+  && ln -s /home/$USERNAME/darwinia-nodes/darwinia /usr/local/bin/darwinia
 
 USER $USERNAME
 WORKDIR /home/$USERNAME/darwinia-nodes
