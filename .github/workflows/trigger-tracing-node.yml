@@ -64,39 +64,43 @@ jobs:
       - name: Prepare build docker image
         run: mv overridden-runtimes docker-image/darwinia-tracing
 
-      - name: Build darwinia-tracing
-        uses: docker/build-push-action@v3
-        if: ${{ github.event.inputs.type == matrix.type }}
-        env:
-          DARWINIA_VERSION: ${{ github.event.inputs.version }}
-        with:
-          push: true
-          context: docker-image/darwinia-tracing
-          tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/darwinia-tracing:${{ env.DARWINIA_VERSION }}
-          build-args: |
-            DARWINIA_VERSION=${{ env.DARWINIA_VERSION }}
+#      - name: Build darwinia-tracing
+#        uses: docker/build-push-action@v3
+#        if: ${{ github.event.inputs.type == matrix.type }}
+#        env:
+#          DARWINIA_VERSION: ${{ github.event.inputs.version }}
+#        with:
+#          push: true
+#          context: docker-image/darwinia-tracing
+#          tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/darwinia-tracing:${{ env.DARWINIA_VERSION }}
+#          build-args: |
+#            DARWINIA_VERSION=${{ env.DARWINIA_VERSION }}
 
       - name: Trigger deploy
         if: ${{ matrix.type == 'testnets' }}
         env:
+          DARWINIA_VERSION: ${{ github.event.inputs.version }}
           GITHUB_TOKEN: ${{ secrets.GH_TKN_DARWINIA }}
         run: |
           MESSAGE='${{ github.event.head_commit.message }}'
           DOCKER_IMAGE_TAG=${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/darwinia-tracing:${{ env.DARWINIA_VERSION }}
-          gh workflow run \
-            trigger.yml \
-            --ref=main \
-            --repo=darwinia-network/ansible-playbooks \
-            --raw-field=file=playbooks/pangolin_nodes/host_vars/g3.testnets \
-            --raw-field="key=.substrate_node_runner.node.image" \
-            --raw-field="value=${DOCKER_IMAGE_TAG}" \
-            --raw-field="message=[devops]: [pangolin-tracing] ${MESSAGE}" 
           
+          MULTI_CHANGES="
+          - file: playbooks/pangolin_nodes/host_vars/g3.testnets
+            key: .substrate_node_runner.node.image
+            value: ${DOCKER_IMAGE_TAG}
+          - file: playbooks/pangoro_nodes/host_vars/g3.testnets
+            key: .substrate_node_runner.node.image
+            value: ${DOCKER_IMAGE_TAG}
+          - file: roles/community-rpc/files/cds.yaml
+            content: |
+              $(cat .github/workflows/docker-image.yml)
+          "
+
           gh workflow run \
             trigger.yml \
             --ref=main \
             --repo=darwinia-network/ansible-playbooks \
-            --raw-field=file=playbooks/pangoro_nodes/host_vars/g3.testnets \
-            --raw-field="key=.substrate_node_runner.node.image" \
-            --raw-field="value=${DOCKER_IMAGE_TAG}" \
-            --raw-field="message=[devops]: [pangoro-tracing] ${MESSAGE}" \
+            --raw-field="changes=${MULTI_CHANGES}" \
+            --raw-field="message=[devops]: [testnets-tracing] ${MESSAGE}" 
+          
