@@ -1,4 +1,4 @@
-name: Trigger Tracing Node
+name: Trigger tracing node
 
 on:
   workflow_dispatch:
@@ -13,6 +13,9 @@ on:
       version:
         description: 'Darwinia version'
         type: string
+
+env:
+  DOCKER_REGISTRY: ghcr.io
 
 jobs:
   publish-tracing-node:
