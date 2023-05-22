@@ -72,6 +72,6 @@ jobs:
         with:
           push: true
           context: docker-image/darwinia-tracing
-          tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/darwinia-tracing:${{ matrix.type }}-${{ env.DARWINIA_VERSION }}
+          tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/darwinia-tracing:${{ env.DARWINIA_VERSION }}
           build-args: |
             DARWINIA_VERSION=${{ env.DARWINIA_VERSION }}
