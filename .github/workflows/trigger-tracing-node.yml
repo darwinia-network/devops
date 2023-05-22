@@ -64,7 +64,7 @@ jobs:
       - name: Prepare build docker image
         run: mv overridden-runtimes docker-image/darwinia-tracing
 
-      - name: darwinia-tracing
+      - name: Build darwinia-tracing
         uses: docker/build-push-action@v3
         if: ${{ github.event.inputs.type == matrix.type }}
         env:
