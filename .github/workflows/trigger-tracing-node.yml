@@ -64,17 +64,17 @@ jobs:
       - name: Prepare build docker image
         run: mv overridden-runtimes docker-image/darwinia-tracing
 
-#      - name: Build darwinia-tracing
-#        uses: docker/build-push-action@v3
-#        if: ${{ github.event.inputs.type == matrix.type }}
-#        env:
-#          DARWINIA_VERSION: ${{ github.event.inputs.version }}
-#        with:
-#          push: true
-#          context: docker-image/darwinia-tracing
-#          tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/darwinia-tracing:${{ env.DARWINIA_VERSION }}
-#          build-args: |
-#            DARWINIA_VERSION=${{ env.DARWINIA_VERSION }}
+      - name: Build darwinia-tracing
+        uses: docker/build-push-action@v3
+        if: ${{ github.event.inputs.type == matrix.type }}
+        env:
+          DARWINIA_VERSION: ${{ github.event.inputs.version }}
+        with:
+          push: true
+          context: docker-image/darwinia-tracing
+          tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/darwinia-tracing:${{ env.DARWINIA_VERSION }}
+          build-args: |
+            DARWINIA_VERSION=${{ env.DARWINIA_VERSION }}
 
       - name: Trigger deploy
         if: ${{ matrix.type == 'testnets' }}
@@ -95,10 +95,6 @@ jobs:
             --arg key .substrate_node_runner.node.image \
             --arg value ${DOCKER_IMAGE_TAG} \
             '{file: $file, key: $key, value: $value}' >> /tmp/changes.json
-          jq -n \
-            --arg file roles/community-rpc/files/cds.yaml \
-            --arg content "$(cat .github/workflows/docker-image.yml)" \
-            '{file: $file, content: $content}' >> /tmp/changes.json
 
           MULTI_CHANGES=$(jq -crs '.' < /tmp/changes.json)
 
@@ -108,15 +104,3 @@ jobs:
             --repo=darwinia-network/ansible-playbooks \
             --raw-field="changes=${MULTI_CHANGES}" \
             --raw-field="message=[devops]: [testnets-tracing] ${MESSAGE}" 
-
-#          MULTI_CHANGES="
-#          - file: playbooks/pangolin_nodes/host_vars/g3.testnets
-#            key: .substrate_node_runner.node.image
-#            value: ${DOCKER_IMAGE_TAG}
-#          - file: playbooks/pangoro_nodes/host_vars/g3.testnets
-#            key: .substrate_node_runner.node.image
-#            value: ${DOCKER_IMAGE_TAG}
-#          - file: roles/community-rpc/files/cds.yaml
-#            content: |
-#              $(cat .github/workflows/docker-image.yml)
-#          "
