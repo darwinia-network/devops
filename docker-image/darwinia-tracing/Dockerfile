@@ -22,4 +22,4 @@ RUN sudo apt-get update \
   && curl -LO https://github.com/darwinia-network/darwinia/releases/download/$DARWINIA_VERSION/darwinia-tracing-x86_64-linux-gnu.tar.bz2 \
   && tar -xvf darwinia-tracing-x86_64-linux-gnu.tar.bz2 -C /home/darwinia/darwinia-nodes/
 
-COPY darwinia-tracing /home/darwinia/darwinia-nodes/
+COPY overridden-runtimes /home/darwinia/darwinia-nodes/
