@@ -19,6 +19,7 @@ jobs:
         package:
           - srtool
           - darwinia-tracing
+          - safe-transaction-service
     steps:
       - uses: actions/checkout@v2
 
@@ -45,3 +46,12 @@ jobs:
           tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/srtool:${{ env.RUST_TOOLCHAIN }}
           build-args: |
             RUSTC_VERSION=${{ env.RUST_TOOLCHAIN }}
+
+      - name: safe-transaction-service
+        uses: docker/build-push-action@v3
+        if: ${{ matrix.package == 'safe-transaction-service' }}
+        with:
+          push: true
+          context: docker-image/safe-transaction-service
+          tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/safe-transaction-service:sha-${{ env.SHA }}
+
