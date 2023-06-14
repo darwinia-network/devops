@@ -22,10 +22,10 @@ inputs:
     default: ''
   enable_tar_bz2:
     description: 'Enalbe package tar.bz2'
-    default: 'true'
+    default: true
   enable_tar_zst:
     description: 'Enable package tar.zst'
-    default: 'true'
+    default: true
 
 outputs:
   PACKAGE_BINARY_BZ2:
