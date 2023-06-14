@@ -34,17 +34,18 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ${{ env.DOCKER_REGISTRY }}
 
-      - name: srtool
-        uses: docker/build-push-action@v3
-        if: ${{ matrix.package == 'srtool' }}
-        env:
-          RUST_TOOLCHAIN: nightly-2022-11-15
-        with:
-          push: true
-          context: docker-image/srtool
-          tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/srtool:${{ env.RUST_TOOLCHAIN }}
-          build-args: |
-            RUSTC_VERSION=${{ env.RUST_TOOLCHAIN }}
+      ## If new version required, please enable this.
+      # - name: srtool
+      #   uses: docker/build-push-action@v3
+      #   if: ${{ matrix.package == 'srtool' }}
+      #   env:
+      #     RUST_TOOLCHAIN: nightly-2022-11-15
+      #   with:
+      #     push: true
+      #     context: docker-image/srtool
+      #     tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/srtool:${{ env.RUST_TOOLCHAIN }}
+      #     build-args: |
+      #       RUSTC_VERSION=${{ env.RUST_TOOLCHAIN }}
 
       - name: safe-transaction-service
         uses: docker/build-push-action@v3
