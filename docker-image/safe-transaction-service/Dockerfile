@@ -4,5 +4,9 @@ RUN apt-get update -y \
   && apt-get install -y git gcc \
   && rm -rf /var/lib/apt/lists/* \
   && pip uninstall -y safe-eth-py \
-  && pip install git+https://github.com/furoxr/safe-eth-py.git@support-darwinia
+  && pip install git+https://github.com/furoxr/safe-eth-py.git@support-darwinia \
+  && git clone -b support-darwinia https://github.com/fewensa/safe-transaction-service tmp \
+  && rm -rf safe_transaction_service \
+  && mv tmp/safe_transaction_service ./ \
+  && rm -rf tmp
 
