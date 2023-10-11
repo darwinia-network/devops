@@ -77,7 +77,7 @@ jobs:
             DARWINIA_VERSION=${{ env.DARWINIA_VERSION }}
 
       - name: Trigger deploy (testnets)
-        if: ${{ github.event.inputs.type == 'testnets' }}
+        if: ${{ github.event.inputs.type == 'testnets' && matrix.type == 'testnets' }}
         env:
           DARWINIA_VERSION: ${{ github.event.inputs.version }}
           GITHUB_TOKEN: ${{ secrets.GH_TKN_DARWINIA }}
@@ -106,7 +106,7 @@ jobs:
             --raw-field="message=[devops]: [testnets-tracing] ${MESSAGE}" 
 
       - name: Trigger deploy (mainnets)
-        if: ${{ github.event.inputs.type == 'mainnets' }}
+        if: ${{ github.event.inputs.type == 'mainnets' && matrix.type == 'mainnets' }}
         env:
           DARWINIA_VERSION: ${{ github.event.inputs.version }}
           GITHUB_TOKEN: ${{ secrets.GH_TKN_DARWINIA }}
@@ -132,5 +132,5 @@ jobs:
             --ref=main \
             --repo=darwinia-network/ansible-playbooks \
             --raw-field="changes=${MULTI_CHANGES}" \
-            --raw-field="message=[devops]: [testnets-tracing] ${MESSAGE}" 
+            --raw-field="message=[devops]: [mainnets-tracing] ${MESSAGE}" 
 
