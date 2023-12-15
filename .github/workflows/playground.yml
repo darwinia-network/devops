@@ -43,11 +43,12 @@ jobs:
 
       - name: Check downloaded
         run: |
-          ls build
+          ls -R build
 
   clean-artifacts:
     name: Clean artifacts
     runs-on: ubuntu-latest
+    needs: [artifact-download]
     if: always()
     steps:
       - uses: geekyeggo/delete-artifact@v2
