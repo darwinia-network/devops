@@ -10,17 +10,38 @@ on:
 
 
 jobs:
-  test-artifact:
-    name: Task artifact action
+  artifact-upload:
+    name: Artifact upload
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        path: [actions, docker-image]
+        animal: [cat, dog]
     steps:
       - uses: actions/checkout@v4
 
-      - name: Upload shared
+      - name: Set name
+        run: |
+          mkdir build
+          echo '${{ matrix.animal }}' >> ${{ matrix.animal }}.txt
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: devops-artifact-${{ matrix.path }}
-          path: ${{ matrix.path }}
+          name: devops-artifact-${{ matrix.animal }}
+          path: build
+
+  artifact-download:
+    name: Artifact download
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact cat
+        uses: actions/download-artifact@v4
+        with:
+          path: build
+
+      - name: Check downloaded
+        run: |
+          ls build
+
+
+
