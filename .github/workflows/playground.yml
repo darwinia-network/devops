@@ -44,7 +44,6 @@ jobs:
         run: |
           ls build
 
-
   clean-artifacts:
     name: Clean artifacts
     runs-on: ubuntu-latest
