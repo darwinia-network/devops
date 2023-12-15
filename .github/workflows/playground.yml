@@ -52,5 +52,5 @@ jobs:
       - uses: geekyeggo/delete-artifact@v2
         with:
           name: |
-            artifact-*
+            artifact-cat
 
