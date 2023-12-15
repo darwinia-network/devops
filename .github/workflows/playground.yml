@@ -8,7 +8,6 @@ on:
     branches:
       - main
 
-
 jobs:
   artifact-upload:
     name: Artifact upload
