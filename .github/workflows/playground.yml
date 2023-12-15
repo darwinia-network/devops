@@ -34,8 +34,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [artifact-upload]
     steps:
-      - name: Prepare workspace
-        run: mkdir build
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
