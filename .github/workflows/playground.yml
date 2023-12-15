@@ -32,6 +32,7 @@ jobs:
   artifact-download:
     name: Artifact download
     runs-on: ubuntu-latest
+    needs: [artifact-upload]
     steps:
       - name: Prepare workspace
         run: mkdir build
