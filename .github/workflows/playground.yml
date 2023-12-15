@@ -22,7 +22,7 @@ jobs:
       - name: Set name
         run: |
           mkdir build
-          echo '${{ matrix.animal }}' >> ${{ matrix.animal }}.txt
+          echo '${{ matrix.animal }}' >> build/${{ matrix.animal }}.txt
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
