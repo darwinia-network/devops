@@ -45,4 +45,13 @@ jobs:
           ls build
 
 
+  clean-artifacts:
+    name: Clean artifacts
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: darwinia-artifact
+
 
