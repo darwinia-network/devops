@@ -1,0 +1,56 @@
+name: Playground
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  artifact-upload:
+    name: Artifact upload
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        animal: [cat, dog]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set name
+        run: |
+          mkdir build
+          echo '${{ matrix.animal }}' >> build/${{ matrix.animal }}.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifact-${{ matrix.animal }}
+          path: build
+
+  artifact-download:
+    name: Artifact download
+    runs-on: ubuntu-latest
+    needs: [artifact-upload]
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          path: build
+
+      - name: Check downloaded
+        run: |
+          ls -R build
+
+  clean-artifacts:
+    name: Clean artifacts
+    runs-on: ubuntu-latest
+    needs: [artifact-download]
+    if: always()
+    steps:
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: |
+            artifact-cat
+
