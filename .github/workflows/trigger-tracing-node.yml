@@ -90,11 +90,11 @@ jobs:
             --arg key .substrate_node_runner.node.image \
             --arg value ${DOCKER_IMAGE_TAG} \
             '{file: $file, key: $key, value: $value}' >> /tmp/changes.json
-          jq -n \
-            --arg file playbooks/pangoro_nodes/host_vars/g3.testnets \
-            --arg key .substrate_node_runner.node.image \
-            --arg value ${DOCKER_IMAGE_TAG} \
-            '{file: $file, key: $key, value: $value}' >> /tmp/changes.json
+          #jq -n \
+          #  --arg file playbooks/pangoro_nodes/host_vars/g3.testnets \
+          #  --arg key .substrate_node_runner.node.image \
+          #  --arg value ${DOCKER_IMAGE_TAG} \
+          #  '{file: $file, key: $key, value: $value}' >> /tmp/changes.json
 
           MULTI_CHANGES=$(jq -crs '.' < /tmp/changes.json)
 
