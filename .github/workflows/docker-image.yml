@@ -48,7 +48,7 @@ jobs:
       #     build-args: |
       #       RUSTC_VERSION=${{ env.RUST_TOOLCHAIN }}
 
-      - name: safe-transaction-service
+      - name: Build ${{ matrix.package }}
         uses: docker/build-push-action@v3
         with:
           push: true
