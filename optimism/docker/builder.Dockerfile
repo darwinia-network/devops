@@ -6,10 +6,11 @@ ARG GIT_BRANCH_OPTIMISM=develop
 ARG GIT_BRANCH_GETH=optimism
 
 RUN apk add --no-cache make gcc musl-dev linux-headers git jq bash npm \
-    && npm i -g pnpm \
+    && npm i -g pnpm
 
 RUN git clone https://github.com/ethereum-optimism/optimism --branch=$GIT_BRANCH_OPTIMISM \
     && cd optimism \
+    && pnpm install \
     && make op-node op-batcher op-proposer \
     && pnpm build
 
