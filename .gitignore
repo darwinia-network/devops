@@ -1,0 +1,14 @@
+**/*.DS_Store
+target
+.idea
+
+package-lock.json
+node_modules
+
+generated
+dist
+.data
+
+*.log
+
+*.local.*

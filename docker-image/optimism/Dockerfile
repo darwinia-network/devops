@@ -12,7 +12,7 @@ COPY --from=foundry /usr/local/bin/cast /usr/local/bin
 COPY --from=foundry /usr/local/bin/chisel /usr/local/bin
 COPY --from=foundry /usr/local/bin/forge /usr/local/bin
 
-RUN apk add --no-cache make gcc musl-dev linux-headers git jq bash curl npm \
+RUN apk add --no-cache make gcc musl-dev gcompat linux-headers git jq bash curl npm \
     && npm i -g pnpm
 
 RUN git clone https://github.com/ethereum-optimism/optimism --branch=$GIT_BRANCH_OPTIMISM \

@@ -19,6 +19,7 @@ jobs:
         package:
           - srtool
           - safe-transaction-service
+          - optimism
     steps:
       - uses: actions/checkout@v4
 
