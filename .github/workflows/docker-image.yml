@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         package:
-          - srtool
+          #- srtool
           - safe-transaction-service
           - optimism
     steps:
@@ -53,6 +53,6 @@ jobs:
         if: ${{ matrix.package == 'safe-transaction-service' }}
         with:
           push: true
-          context: docker-image/safe-transaction-service
-          tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/safe-transaction-service:sha-${{ env.SHA }}
+          context: docker-image/${{ matrix.package }}
+          tags: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/${{ matrix.package }}:sha-${{ env.SHA }}
 
