@@ -50,7 +50,6 @@ jobs:
 
       - name: safe-transaction-service
         uses: docker/build-push-action@v3
-        if: ${{ matrix.package == 'safe-transaction-service' }}
         with:
           push: true
           context: docker-image/${{ matrix.package }}
