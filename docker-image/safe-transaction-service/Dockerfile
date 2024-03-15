@@ -8,5 +8,5 @@ RUN apt-get update -y \
   && mv tmp/safe_transaction_service ./ \
   && rm -rf tmp \
   && pip uninstall -y safe-eth-py \
-  && pip install git+https://github.com/furoxr/safe-eth-py.git@support-darwinia
+  && pip install git+https://github.com/dcdao/safe-eth-py.git@support-darwinia
 
