@@ -57,7 +57,7 @@ jobs:
           git checkout -b darwinia origin/darwinia
           cp -r wasm ../overridden-runtimes/darwinia
           git checkout -b crab origin/crab
-          cp -r wasm ../overridden-runtimes/darwinia
+          cp -r wasm ../overridden-runtimes/crab
 
       - name: Prepare build docker image
         run: mv overridden-runtimes docker-image/darwinia-tracing
