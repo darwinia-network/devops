@@ -43,19 +43,17 @@ jobs:
         if: ${{ matrix.type == 'testnets' }}
         run: |
           mkdir overridden-runtimes
-          git clone https://github.com/darwinia-network/wasm-runtime-overrides
-          cd wasm-runtime-overrides
+          git clone https://github.com/darwinia-network/darwinia-releases
+          cd darwinia-releases
           git checkout -b pangolin origin/pangolin
           cp -r pangolin ../overridden-runtimes
-          git checkout -b pangoro origin/pangoro
-          cp -r pangoro ../overridden-runtimes
 
       - name: Prepare wasm runtime override (mainnets)
         if: ${{ matrix.type == 'mainnets' }}
         run: |
           mkdir overridden-runtimes
-          git clone https://github.com/darwinia-network/wasm-runtime-overrides
-          cd wasm-runtime-overrides
+          git clone https://github.com/darwinia-network/darwinia-releases
+          cd darwinia-releases
           git checkout -b darwinia origin/darwinia
           cp -r darwinia ../overridden-runtimes
           git checkout -b crab origin/crab
