@@ -43,8 +43,8 @@ jobs:
         if: ${{ matrix.type == 'testnets' }}
         run: |
           mkdir overridden-runtimes
-          git clone https://github.com/darwinia-network/darwinia-releases
-          cd darwinia-releases
+          git clone https://github.com/darwinia-network/darwinia-release
+          cd darwinia-release
           git checkout -b pangolin origin/pangolin
           cp -r wasm ../overridden-runtimes/pangolin
 
@@ -52,8 +52,8 @@ jobs:
         if: ${{ matrix.type == 'mainnets' }}
         run: |
           mkdir overridden-runtimes
-          git clone https://github.com/darwinia-network/darwinia-releases
-          cd darwinia-releases
+          git clone https://github.com/darwinia-network/darwinia-release
+          cd darwinia-release
           git checkout -b darwinia origin/darwinia
           cp -r wasm ../overridden-runtimes/darwinia
           git checkout -b crab origin/crab
