@@ -3,13 +3,6 @@ name: Trigger tracing node
 on:
   workflow_dispatch:
     inputs:
-      # type:
-      #   description: 'Node type'
-      #   required: true
-      #   type: choice
-      #   options:
-      #     - mainnets
-      #     - testnets
       network:
         description: "Network"
         required: true
@@ -60,7 +53,6 @@ jobs:
 
       - name: Build darwinia-tracing
         uses: docker/build-push-action@v3
-        if: ${{ github.event.inputs.type == matrix.type }}
         env:
           DARWINIA_VERSION: ${{ github.event.inputs.version }}
         with:
