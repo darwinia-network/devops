@@ -22,11 +22,6 @@ jobs:
   bulid-tracing-node:
     name: Build tracing node
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        type:
-          - mainnets
-          - testnets
     steps:
       - uses: actions/checkout@v4
 
