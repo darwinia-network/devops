@@ -183,7 +183,7 @@ runs:
             cp -r ${DIR_NAME} ${REPO_NAME}
           fi
         else
-          if [ "${DIS_PATH}" != "${REPO_NAME}" ]; then
+          if [ "${DIST_PATH}" != "${REPO_NAME}" ]; then
             mv ${DIST_PATH} ${REPO_NAME}
           fi
         fi
