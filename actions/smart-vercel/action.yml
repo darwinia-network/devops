@@ -183,7 +183,9 @@ runs:
             cp -r ${DIR_NAME} ${REPO_NAME}
           fi
         else
-          mv ${DIST_PATH} ${REPO_NAME}
+          if [ "${DIS_PATH}" != "${REPO_NAME}" ]; then
+            mv ${DIST_PATH} ${REPO_NAME}
+          fi
         fi
 
         PATH_VERCEL_JSON=./vercel.json
