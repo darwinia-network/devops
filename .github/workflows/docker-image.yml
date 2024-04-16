@@ -18,8 +18,8 @@ jobs:
       matrix:
         package:
           #- srtool
-          - safe-transaction-service
-          - optimism
+          #- safe-transaction-service
+          #- optimism
     steps:
       - uses: actions/checkout@v4
 
