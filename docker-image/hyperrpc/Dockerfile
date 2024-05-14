@@ -1,6 +1,7 @@
 FROM rust:1.78-alpine as builder
 
-RUN apk update musl-dev git capnproto-dev \
+RUN apk update \
+  && apk add musl-dev git capnproto-dev \
   && git clone https://github.com/enviodev/local-hyperrpc \
   && cd local-hyperrpc \
   && cargo build --release
