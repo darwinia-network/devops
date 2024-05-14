@@ -9,4 +9,3 @@ RUN apk update \
 FROM alpine:3.18
 
 COPY --from=builder /local-hyperrpc/target/release/local-hyperrpc /usr/local/bin/
-
