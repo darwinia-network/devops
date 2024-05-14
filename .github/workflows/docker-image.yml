@@ -17,6 +17,7 @@ jobs:
     strategy:
       matrix:
         package:
+          - hyperrpc
           #- srtool
           #- safe-transaction-service
           #- optimism
