@@ -18,6 +18,7 @@ jobs:
       matrix:
         package:
           - hyperrpc
+          - koi
           #- srtool
           #- safe-transaction-service
           #- optimism
