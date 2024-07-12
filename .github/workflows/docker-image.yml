@@ -19,6 +19,7 @@ jobs:
         package:
           - hyperrpc
           - koi
+          - ceramic
           #- srtool
           #- safe-transaction-service
           #- optimism
