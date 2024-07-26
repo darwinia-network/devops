@@ -42,7 +42,7 @@ jobs:
     strategy:
       matrix:
         playbook:
-          - monitor
+          - snapshots_crab
     steps:
       - uses: actions/checkout@v2
 
