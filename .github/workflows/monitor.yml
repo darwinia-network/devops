@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "0 */2 * * *"
   workflow_dispatch:
+  pull_request:
+    branches: [main]
+
+env:
+  SLACK_INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_INCOMING_WEBHOOK_URL }}
 
 jobs:
   monitor:
