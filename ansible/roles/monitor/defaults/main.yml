@@ -5,6 +5,7 @@ monitor:
   notify_slack_channel: 'darwinia-alert-notification'
   server_name: ''
   check_disks:
+    - /dev/sda
     - /dev/sdb
   alert_thread_cpu_p2: 90
   alert_thread_cpu_p1: 98
