@@ -11,6 +11,6 @@ monitor:
   alert_thread_cpu_p1: 98
   alert_thread_ram_p2: 90
   alert_thread_ram_p1: 98
-  alert_thread_disk_p2: 90
+  alert_thread_disk_p2: 96
   alert_thread_disk_p1: 98
 
