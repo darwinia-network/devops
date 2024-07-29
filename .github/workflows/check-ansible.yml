@@ -4,9 +4,6 @@ on:
   pull_request:
     branches: [main]
 
-env:
-  SLACK_INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_INCOMING_WEBHOOK_URL }}
-
 jobs:
   deploy-essentials:
     name: Deploy essentials
