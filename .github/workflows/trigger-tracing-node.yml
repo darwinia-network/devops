@@ -68,19 +68,19 @@ jobs:
           EFFECT_FILE=''
           if [[ "${NETWORK}" == "koi" ]]; then
             jq -n \
-              --arg file playbooks/darwinia_nodes/host_vars/g2.testnets \
+              --arg file playbooks/koi_nodes/host_vars/g2.testnets \
               --arg key .substrate_node_runner.node.image \
               --arg value ${DOCKER_IMAGE_TAG} \
               '{file: $file, key: $key, value: $value}' >> /tmp/changes.json
             jq -n \
-              --arg file playbooks/darwinia_nodes/host_vars/g3.testnets \
+              --arg file playbooks/koi_nodes/host_vars/g3.testnets \
               --arg key .substrate_node_runner.node.image \
               --arg value ${DOCKER_IMAGE_TAG} \
               '{file: $file, key: $key, value: $value}' >> /tmp/changes.json
           fi
           if [[ "${NETWORK}" == "crab" ]]; then
             jq -n \
-              --arg file playbooks/darwinia_nodes/host_vars/c1.crab2 \
+              --arg file playbooks/crab_nodes/host_vars/c1.crab2 \
               --arg key .substrate_node_runner.node.image \
               --arg value ${DOCKER_IMAGE_TAG} \
               '{file: $file, key: $key, value: $value}' >> /tmp/changes.json
