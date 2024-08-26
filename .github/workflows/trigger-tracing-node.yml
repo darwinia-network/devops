@@ -67,20 +67,32 @@ jobs:
           NETWORK='${{ github.event.inputs.network }}'
           EFFECT_FILE=''
           if [[ "${NETWORK}" == "koi" ]]; then
-            EFFECT_FILE=playbooks/koi_nodes/host_vars/g3.testnets
+            jq -n \
+              --arg file playbooks/darwinia_nodes/host_vars/g2.testnets \
+              --arg key .substrate_node_runner.node.image \
+              --arg value ${DOCKER_IMAGE_TAG} \
+              '{file: $file, key: $key, value: $value}' >> /tmp/changes.json
+            jq -n \
+              --arg file playbooks/darwinia_nodes/host_vars/g3.testnets \
+              --arg key .substrate_node_runner.node.image \
+              --arg value ${DOCKER_IMAGE_TAG} \
+              '{file: $file, key: $key, value: $value}' >> /tmp/changes.json
           fi
           if [[ "${NETWORK}" == "crab" ]]; then
-            EFFECT_FILE=playbooks/crab_nodes/host_vars/c1.crab2
+            jq -n \
+              --arg file playbooks/darwinia_nodes/host_vars/c1.crab2 \
+              --arg key .substrate_node_runner.node.image \
+              --arg value ${DOCKER_IMAGE_TAG} \
+              '{file: $file, key: $key, value: $value}' >> /tmp/changes.json
           fi
           if [[ "${NETWORK}" == "darwinia" ]]; then
-            EFFECT_FILE=playbooks/darwinia_nodes/host_vars/c1.darwinia2
+            jq -n \
+              --arg file playbooks/darwinia_nodes/host_vars/c1.darwinia2 \
+              --arg key .substrate_node_runner.node.image \
+              --arg value ${DOCKER_IMAGE_TAG} \
+              '{file: $file, key: $key, value: $value}' >> /tmp/changes.json
           fi
 
-          jq -n \
-            --arg file ${EFFECT_FILE} \
-            --arg key .substrate_node_runner.node.image \
-            --arg value ${DOCKER_IMAGE_TAG} \
-            '{file: $file, key: $key, value: $value}' >> /tmp/changes.json
 
           MULTI_CHANGES=$(jq -crs '.' < /tmp/changes.json)
 
