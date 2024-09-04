@@ -19,6 +19,10 @@ inputs:
     description: 'Cache path'
     required: false
     default: '**/node_modules'
+  vercel_json_path:
+    description: 'Default vercel.json path'
+    required: false
+    default: './vercel.json'
   cache_type:
     description: 'Cache type, npm/yarn default yarn'
     required: false
@@ -172,6 +176,7 @@ runs:
         PREVIEW_OUTPUT=${{ inputs.preview_output }}
         PROD_MODE=${{ inputs.prod_mode }}
         DIST_PATH=${{ inputs.dist_path }}
+        PATH_VERCEL_JSON=${{ inputs.vercel_json_path }}
 
         INPUT_ALIAS_DOMAIN='${{ inputs.alias_domain }}'
         ALL_ALIAS_DOMAIN=$(echo "${INPUT_ALIAS_DOMAIN}" | sed ":a;$!N;s/\n/ /g;ba" | sed "s/,/ /g")
@@ -188,7 +193,6 @@ runs:
           fi
         fi
 
-        PATH_VERCEL_JSON=./vercel.json
         if [ -f "${PATH_VERCEL_JSON}" ]; then
           cp -r ${PATH_VERCEL_JSON} ${REPO_NAME}/
         fi
