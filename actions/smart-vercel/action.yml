@@ -55,6 +55,9 @@ inputs:
   preview_output:
     description: 'Output preview markdown'
     required: false
+  preview_section:
+    description: 'Oytput preview section name'
+    required: false
   prod_mode:
     description: 'Production mode'
     required: false
@@ -174,6 +177,7 @@ runs:
         VERCEL_TOKEN=${{ inputs.vercel_token }}
         VERCEL_GROUP=${{ inputs.vercel_group }}
         PREVIEW_OUTPUT=${{ inputs.preview_output }}
+        PREVIEW_SECTION=${{ inputs.preview_section }}
         PROD_MODE=${{ inputs.prod_mode }}
         DIST_PATH=${{ inputs.dist_path }}
         PATH_VERCEL_JSON=${{ inputs.vercel_json_path }}
@@ -251,7 +255,11 @@ runs:
           COMMIT="Commit: [${SHA}](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${SHA})"
           PREVIEW="Preview: ${PREVIEW_LINK}"
 
-          echo '\---' >> comment.md
+          if [ -n "${PREVIEW_SECTION}" ]; then
+            echo "\---${PREVIEW_SECTION}---" >> comment.md
+          else
+            echo '\---' >> comment.md
+          fi
           echo $COMMIT >> comment.md
           echo $PREVIEW >> comment.md
           echo '' >> comment.md
