@@ -25,10 +25,10 @@ memory_usage() {
   free | grep Mem | awk '{print $3/$2 * 100.0}'
 }
 
-disk_usage() {
+disk_remain() {
   for disk in "${DISKS_TO_MONITOR[@]}"; do
-    usage=$(df -h | grep "^$disk" | awk '{print $5}' | sed 's/%//')
-    echo "$disk $usage"
+    remain=$(df -h | grep "^$disk" | awk '{print $4}' | sed 's/G//')
+    echo "$disk $remain"
   done
 }
 
@@ -79,19 +79,19 @@ generate_disk_alert_message() {
 
   while IFS= read -r line; do
     local disk=$(echo $line | awk '{print $1}')
-    local usage=$(echo $line | awk '{print $2}')
-    if [[ -z "$usage" ]]; then
+    local remain=$(echo $line | awk '{print $2}')
+    if [[ -z "$remain" ]]; then
       continue
     fi
 
-    if (( $(echo "$usage > $ALERT_THREAD_DISK_P1" | bc -l) )); then
+    if (( $(echo "$remain < $ALERT_THREAD_DISK_P1" | bc -l) )); then
       priority='P1'
     fi
-    if (( $(echo "$usage > $ALERT_THREAD_DISK_P2" | bc -l) )); then
-      disk_alert=$(jq -n --arg disk "*DISK* ($disk)" --arg usage "${usage}%" '[{"type":"mrkdwn","text":$disk},{"type":"plain_text","text":$usage}]')
+    if (( $(echo "$remain < $ALERT_THREAD_DISK_P2" | bc -l) )); then
+      disk_alert=$(jq -n --arg disk "*DISK* ($disk)" --arg remain "${remain}G" '[{"type":"mrkdwn","text":$disk},{"type":"plain_text","text":$remain}]')
       alert_message=$(echo "$alert_message" | jq --argjson disk_alert "$disk_alert" '. += $disk_alert')
     fi
-  done < <(disk_usage)
+  done < <(disk_remain)
 
   if [[ "P1" == "$priority" ]]; then
     priority_alert=$(jq -n --arg priority "${priority}" '[{"type":"mrkdwn","text":"*Priority*"},{"type":"plain_text","text":$priority}]')
@@ -158,9 +158,9 @@ send_alert() {
 main() {
   local cpu=$(cpu_usage)
   local ram=$(memory_usage)
-  local disk=$(disk_usage)
+  local disk=$(disk_remain)
   local requests=$(request_count)
-  echo "$(timestamp) CPU: ${cpu}% RAM: ${ram}% Disk: ${disk}% Requests: ${requests}"
+  echo "$(timestamp) CPU: ${cpu}% RAM: ${ram}% Remain Disk: ${disk}G Requests: ${requests}"
 
   check_and_send_alert
 }
