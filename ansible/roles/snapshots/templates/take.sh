@@ -119,8 +119,17 @@ take_node_snapshots() {
   rm -rf ${SNAPSHOTS_WORKDIR}
 }
 
+clean_resource() {
+  delete_snapshots || true
+  umount ${SNAPSHOTS_WORKDIR} || true
+  rm -rf ${SNAPSHOTS_WORKDIR} || true
+  detach_disk || true
+  delete_disk || true
+}
+
 main() {
   install_deps
+  clean_resource
   collect_chain_info
   create_disk_snapshots
   create_disk_from_snapshots
