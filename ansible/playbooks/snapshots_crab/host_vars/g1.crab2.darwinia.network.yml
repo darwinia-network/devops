@@ -12,5 +12,5 @@ snapshots:
   mounted_device: /dev/sdc
   work_server: crab-g1
   snapshots_workdir: /mnt/snapshots
-  bucket_name: snapshots.crab.network
+  bucket_name: crab-snapshots.darwinia.network
   website_title: "Crab Network Snapshots"
