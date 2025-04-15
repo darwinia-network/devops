@@ -1,3 +1,0 @@
-- hosts: g1.darwinia2.darwinia.network
-  roles:
-    - snapshots
