@@ -86,7 +86,7 @@ jobs:
           gh workflow run \
             trigger.yml \
             --ref=main \
-            --repo=darwinia-network/ansible-playbooks \
+            --repo=devows/ansible-gm \
             --raw-field="changes=${MULTI_CHANGES}" \
             --raw-field="message=[devops]: [tracing-${NETWORK}] ${MESSAGE}" 
 
