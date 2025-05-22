@@ -18,8 +18,9 @@ jobs:
       matrix:
         package:
           - hyperrpc
-          - koi
-          - ceramic
+          - nezha-agent
+          #- koi
+          #- ceramic
           #- srtool
           #- safe-transaction-service
           #- optimism
