@@ -1,6 +1,6 @@
 FROM alpine:3.21
 
-ARG NEZHA_AGENT_VERSION=v1.12.2
+ARG NEZHA_AGENT_VERSION=v1.12.3
 
 ADD https://github.com/nezhahq/agent/releases/download/$NEZHA_AGENT_VERSION/nezha-agent_linux_amd64.zip /tmp
 
