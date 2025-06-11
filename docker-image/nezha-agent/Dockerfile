@@ -8,6 +8,7 @@ RUN unzip /tmp/nezha-agent_linux_amd64.zip -d /usr/local/bin && rm /tmp/nezha-ag
 
 RUN addgroup -S nezha && adduser -S -D -h /home/nezha -G nezha nezha
 USER nezha
+WORKDIR /home/nezha
 
 ENTRYPOINT ["nezha-agent"]
 
