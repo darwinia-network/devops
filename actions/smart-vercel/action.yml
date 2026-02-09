@@ -1,93 +1,93 @@
-name: 'Smart Vercel'
+name: "Smart Vercel"
 
-description: 'Smart build and deploy to Vercel'
+description: "Smart build and deploy to Vercel"
 
 inputs:
   node_version:
-    description: 'Nodejs version'
+    description: "Nodejs version"
     required: false
-    default: '18'
+    default: "20"
   enable_cache:
-    description: 'Enable cache'
+    description: "Enable cache"
     required: false
-    default: 'false'
+    default: "false"
   cache_key:
-    description: 'Cache key'
+    description: "Cache key"
     required: false
-    default: 'none'
+    default: "none"
   cache_path:
-    description: 'Cache path'
+    description: "Cache path"
     required: false
-    default: '**/node_modules'
+    default: "**/node_modules"
   vercel_json_path:
-    description: 'Default vercel.json path'
+    description: "Default vercel.json path"
     required: false
-    default: './vercel.json'
+    default: "./vercel.json"
   cache_type:
-    description: 'Cache type, npm/yarn default yarn'
+    description: "Cache type, npm/yarn default yarn"
     required: false
-    default: 'yarn'
+    default: "yarn"
   script_run:
-    description: 'Run build script'
+    description: "Run build script"
     required: false
-    default: 'true'
+    default: "true"
   script_install:
-    description: 'Install dependencies script'
+    description: "Install dependencies script"
     required: false
-    default: 'yarn install'
+    default: "yarn install"
   script_build:
-    description: 'Build project script'
+    description: "Build project script"
     required: false
-    default: 'yarn build'
+    default: "yarn build"
   workdir:
-    description: 'Workdir'
+    description: "Workdir"
     required: false
-    default: '.'
+    default: "."
   project_name:
-    description: 'The name of project in Vercel'
+    description: "The name of project in Vercel"
     required: false
   vercel_group:
-    description: 'Vercel group account'
+    description: "Vercel group account"
     required: false
   vercel_token:
-    description: 'Vercel token'
+    description: "Vercel token"
     required: true
   preview_output:
-    description: 'Output preview markdown'
+    description: "Output preview markdown"
     required: false
   preview_section:
-    description: 'Oytput preview section name'
+    description: "Oytput preview section name"
     required: false
   prod_mode:
-    description: 'Production mode'
+    description: "Production mode"
     required: false
   dist_path:
-    description: 'Dist output path'
+    description: "Dist output path"
     required: false
-    default: 'build'
+    default: "build"
   env_ci:
-    description: 'ENV CI'
+    description: "ENV CI"
     required: false
-    default: 'false'
+    default: "false"
   alias_domain:
-    description: 'Alias domain name for vercel.app'
+    description: "Alias domain name for vercel.app"
     required: false
   enable_notify_comment:
-    description: 'Enable notify comment for pull request'
+    description: "Enable notify comment for pull request"
     required: false
-    default: 'false'
+    default: "false"
   enable_notify_slack:
-    description: 'Enable notify slack channel'
+    description: "Enable notify slack channel"
     required: false
-    default: 'false'
+    default: "false"
   slack_channel:
-    description: 'Slack channel name'
+    description: "Slack channel name"
     required: false
-    default: 'none'
+    default: "none"
   slack_webhook:
-    description: 'Slack webhook'
+    description: "Slack webhook"
     required: false
-    default: 'none'
+    default: "none"
 
 outputs:
   PREVIEW_OUTPUT:
@@ -101,27 +101,27 @@ runs:
   using: "composite"
   steps:
     - name: Setup NodeJS
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v6
       if: ${{ inputs.script_run == 'true' }}
       with:
         node-version: ${{ inputs.node_version }}
 
     - name: Cache yarn
-      uses: actions/cache@v3
+      uses: actions/cache@v5
       if: ${{ (inputs.script_run == 'true') && (inputs.enable_cache == 'true') && (inputs.cache_key == 'none') && (inputs.cache_type == 'yarn') }}
       with:
         path: ${{ inputs.cache_path }}
         key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
     - name: Cache npm
-      uses: actions/cache@v3
+      uses: actions/cache@v5
       if: ${{ (inputs.script_run == 'true') && (inputs.enable_cache == 'true') && (inputs.cache_key == 'none') && (inputs.cache_type == 'npm') }}
       with:
         path: ${{ inputs.cache_path }}
         key: ${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
 
     - name: Cache custom
-      uses: actions/cache@v3
+      uses: actions/cache@v5
       if: ${{ (inputs.script_run == 'true') && (inputs.enable_cache == 'true') && (inputs.cache_key != 'none') }}
       with:
         path: ${{ inputs.cache_path }}
@@ -163,7 +163,7 @@ runs:
       shell: bash
       run: |
         npm uninstall -g vercel || exit 0
-        npm i -g vercel@25.2.3
+        npm i -g vercel@50.13.2
         vercel --version
 
     - name: Deploy to Vercel
@@ -313,7 +313,7 @@ runs:
         SLACK_CHANNEL: ${{ inputs.slack_channel }}
         SLACK_COLOR: ${{ job.status }}
         SLACK_ICON: https://avatars.githubusercontent.com/u/14985020?s=48&v=4
-        SLACK_MESSAGE: '${{ steps.deploy_vercel.outputs.PREVIEW_LINK }}'
+        SLACK_MESSAGE: "${{ steps.deploy_vercel.outputs.PREVIEW_LINK }}"
         SLACK_TITLE: Preview
         SLACK_USERNAME: Vercel
         SLACK_WEBHOOK: ${{ inputs.slack_webhook }}
