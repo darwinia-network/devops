@@ -88,7 +88,10 @@ inputs:
     description: 'Slack webhook'
     required: false
     default: 'none'
-
+  hide_git:
+    description: "Hide .git directory during deployment"
+    required: false
+    default: 'false'
 outputs:
   PREVIEW_OUTPUT:
     description: "Vercel deploy output"
@@ -207,8 +210,20 @@ runs:
 
         ${VERCEL} link --confirm
 
+        HIDE_GIT=${{ inputs.hide_git }}
+
+        # Hide .git directory if hide_git is true
+        if [ "${HIDE_GIT}" == "true" ] && [ -d ".git" ]; then
+          mv .git .git.hidden
+        fi
+
         ${VERCEL} ${PROD_MODE:+--prod} deploy | tee deploy.log
 
+        # Restore .git directory if it was hidden
+        if [ "${HIDE_GIT}" == "true" ] && [ -d ".git.hidden" ]; then
+          mv .git.hidden .git
+        fi
+        
         DEPLOYMENT_URL=$(cat deploy.log)
 
         for DOMAIN in ${ALL_ALIAS_DOMAIN}
