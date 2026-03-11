@@ -91,7 +91,7 @@ inputs:
   hide_git:
     description: "Hide .git directory during deployment"
     required: false
-    default: 'false'
+    default: "false"
 
 outputs:
   PREVIEW_OUTPUT:
@@ -185,6 +185,7 @@ runs:
         PROD_MODE=${{ inputs.prod_mode }}
         DIST_PATH=${{ inputs.dist_path }}
         PATH_VERCEL_JSON=${{ inputs.vercel_json_path }}
+        HIDE_GIT=${{ inputs.hide_git }}
 
         INPUT_ALIAS_DOMAIN='${{ inputs.alias_domain }}'
         ALL_ALIAS_DOMAIN=$(echo "${INPUT_ALIAS_DOMAIN}" | sed ":a;$!N;s/\n/ /g;ba" | sed "s/,/ /g")
