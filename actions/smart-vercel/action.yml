@@ -178,6 +178,7 @@ runs:
         cd ${{ inputs.workdir }}
         DIR_NAME=${{ steps.dir-name.outputs.DIR_NAME }}
         REPO_NAME=${{ steps.repo-name.outputs.REPO_NAME }}
+        FORMAT_PREVIEW_OUTPUT=${{ github.action_path }}/bin/render-preview-output.sh
         VERCEL_TOKEN=${{ inputs.vercel_token }}
         VERCEL_GROUP=${{ inputs.vercel_group }}
         PREVIEW_OUTPUT=${{ inputs.preview_output }}
@@ -239,10 +240,7 @@ runs:
           fi
         done
 
-        content="${DEPLOYMENT_URL//'%'/'%25'}"
-        content="${content//$'\n'/'%0A'}"
-        content="${content//$'\r'/'%0D'}"
-        PREVIEW_LINK="${content}"
+        PREVIEW_LINK=$("${FORMAT_PREVIEW_OUTPUT}" normalize-link "${DEPLOYMENT_URL}")
 
         for DOMAIN in ${ALL_ALIAS_DOMAIN}
         do
@@ -268,25 +266,7 @@ runs:
             SHA=${{ github.event.pull_request.head.sha }}
             SHA=${SHA::7}
           fi
-          COMMIT="Commit: [${SHA}](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${SHA})"
-          PREVIEW="Preview: ${PREVIEW_LINK}"
-
-          if [ -n "${PREVIEW_SECTION}" ]; then
-            echo "\---${PREVIEW_SECTION}---" >> comment.md
-          else
-            echo '\---' >> comment.md
-          fi
-          echo $COMMIT >> comment.md
-          echo $PREVIEW >> comment.md
-          echo '' >> comment.md
-
-          content=$(cat comment.md)
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          PREVIEW_OUTPUT=${content}
-
-          rm -rf comment.md
+          PREVIEW_OUTPUT=$("${FORMAT_PREVIEW_OUTPUT}" render-entry "${SHA}" "${PREVIEW_LINK}" "${PREVIEW_SECTION}")
 
           {
             echo 'PREVIEW_OUTPUT<<EOF'
