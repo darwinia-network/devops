@@ -58,6 +58,9 @@ inputs:
   preview_section:
     description: "Oytput preview section name"
     required: false
+  vercel_target:
+    description: "Vercel deployment target (custom environment slug, e.g. staging). Equivalent to `vercel deploy --target=<slug>`. See https://vercel.com/docs/deployments/environments#using-custom-environments-via-the-cli"
+    required: false
   prod_mode:
     description: "Production mode"
     required: false
@@ -184,6 +187,7 @@ runs:
         PREVIEW_OUTPUT=${{ inputs.preview_output }}
         PREVIEW_SECTION=${{ inputs.preview_section }}
         PROD_MODE=${{ inputs.prod_mode }}
+        VERCEL_TARGET=${{ inputs.vercel_target }}
         DIST_PATH=${{ inputs.dist_path }}
         PATH_VERCEL_JSON=${{ inputs.vercel_json_path }}
         HIDE_GIT=${{ inputs.hide_git }}
@@ -219,7 +223,7 @@ runs:
           mv .git .git.hidden
         fi
 
-        ${VERCEL} ${PROD_MODE:+--prod} deploy | tee deploy.log
+        ${VERCEL} ${PROD_MODE:+--prod} deploy ${VERCEL_TARGET:+--target=$VERCEL_TARGET} | tee deploy.log
 
         # Restore .git directory if it was hidden
         if [ "${HIDE_GIT}" == "true" ] && [ -d ".git.hidden" ]; then
