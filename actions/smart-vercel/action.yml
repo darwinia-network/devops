@@ -152,7 +152,7 @@ runs:
       run: |
         DIR_NAME=$(basename "$PWD")
         echo ''
-        echo "::set-output name=DIR_NAME::$DIR_NAME"
+        echo "DIR_NAME=$DIR_NAME" >> "$GITHUB_OUTPUT"
 
     - name: Repo name
       shell: bash
@@ -161,7 +161,7 @@ runs:
         PROJECT_NAME=${{ inputs.project_name }}
         REPO_NAME=${PROJECT_NAME:-${GITHUB_REPOSITORY#*/}}
         echo ''
-        echo "::set-output name=REPO_NAME::$REPO_NAME"
+        echo "REPO_NAME=$REPO_NAME" >> "$GITHUB_OUTPUT"
 
     - name: Prepare vercel cli
       shell: bash
@@ -210,7 +210,7 @@ runs:
 
         VERCEL="vercel ${VERCEL_TOKEN:+--token $VERCEL_TOKEN} ${VERCEL_GROUP:+--scope $VERCEL_GROUP}"
 
-        ${VERCEL} link --confirm
+        ${VERCEL} link --yes
 
 
         # Hide .git directory if hide_git is true
@@ -288,13 +288,25 @@ runs:
 
           rm -rf comment.md
 
-          echo "::set-output name=PREVIEW_OUTPUT::$PREVIEW_OUTPUT"
+          {
+            echo 'PREVIEW_OUTPUT<<EOF'
+            echo "$PREVIEW_OUTPUT"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
         else
-          echo "::set-output name=PREVIEW_OUTPUT::$PREVIEW_LINK"
+          {
+            echo 'PREVIEW_OUTPUT<<EOF'
+            echo "$PREVIEW_LINK"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
         fi
 
         echo ''
-        echo "::set-output name=PREVIEW_LINK::$PREVIEW_LINK"
+        {
+          echo 'PREVIEW_LINK<<EOF'
+          echo "$PREVIEW_LINK"
+          echo 'EOF'
+        } >> "$GITHUB_OUTPUT"
 
     - name: Restore dir name
       shell: bash
@@ -316,7 +328,7 @@ runs:
         fi
 
     - name: Comment deploy ouput
-      uses: marocchino/sticky-pull-request-comment@v2
+      uses: marocchino/sticky-pull-request-comment@v3
       if: ${{ inputs.enable_notify_comment == 'true' }}
       with:
         append: true
